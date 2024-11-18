@@ -13,6 +13,20 @@ import Quiz from './components/Quiz';
 import GraphComponent from './components/GraphComponent';
 import ExplanationComponent from './components/ExplanationComponent';
 import StepByStepComponent from './components/StepByStepComponent';
+import InteractivePractice from './components/InteractivePractice';
+import ProgressTracker from './components/ProgressTracker'; // Import the ProgressTracker component
+
+// Define practice problems for interactive practice
+const practiceProblems = {
+  'Linear Functions': {
+    question: 'What is the value of y when x = 2 for the equation y = 2x + 3?',
+    correctAnswer: 7
+  },
+  'Quadratic Functions': {
+    question: 'What is the value of y when x = 1 for the equation y = x^2 + 2x + 1?',
+    correctAnswer: 4
+  }
+};
 
 function App() {
   // State to track selected topic
@@ -71,14 +85,32 @@ function App() {
   return (
     <div className="App">
       <h1>Math Learning App</h1>
+
+      {/* Add the ProgressTracker component below the main heading */}
+      <ProgressTracker topics={[
+        ...arithmeticTopics,
+        ...algebraTopics,
+        ...geometryTopics,
+        ...fractionsDecimalsTopics,
+        ...numberTheoryTopics,
+        ...trigonometryTopics,
+        ...probabilityStatisticsTopics,
+        ...measurementTopics,
+        ...wordProblemsTopics
+      ]} />
+
       {selectedTopic ? (
         <>
           <button onClick={() => setSelectedTopic(null)} className="back-button">
             Back
           </button>
           <ExplanationComponent topic={selectedTopic} />
-          {renderGraph()}
+          {selectedTopic === 'Linear Functions' && <GraphComponent />}
           <StepByStepComponent topic={selectedTopic} />
+          <InteractivePractice
+            question={practiceProblems[selectedTopic]?.question}
+            correctAnswer={practiceProblems[selectedTopic]?.correctAnswer}
+          />
           <Quiz questions={sampleQuestions} />
         </>
       ) : (
